@@ -1,0 +1,165 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<ClassLibrary.Models.Page>
+<div class="main-page">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+                <img src="~/Content/logo.png"/>
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            @Html.Action("MenuTop")
+            <div class="form-search">
+                <div class="search-body">
+                    <input type="text" id="txtSearch" placeholder="Tìm kiêm" class="text"/>
+                    <button class="btn-search" onclick=" Timkiem() " type="button"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content page-in-category">
+        <div class="row">
+            <div class="breadcrumb-trail breadcrumb">
+                @Html.Raw(ViewBag.Breadcrumb)
+            </div>
+            <div class="col-lg-12">
+                <h1 class="page-title">
+                    @ViewBag.Title
+                </h1>
+                <div class="col-lg-8">
+                    <div class="box-search">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Năm</th>
+                                    <th>Từ khóa</th>
+                                    <th>Đề mục</th>
+                                    <th>Tác giả</th>
+                                    <th>Tổ chức</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td>
+                                    <select id="slYear" title="Chọn năm cần tìm" name="slYear">
+                                        <option value="">Chọn</option>
+                                        @{
+                                            int year = DateTime.Now.Year;
+                                            for (int i = year; i >= year - 10; i--)
+                                            {
+                                                <option value="@i">@i</option>
+                                            }
+                                        }
+                                    </select>
+                                </td>
+                                <td>
+                                    <input id="txtKeywords" name="txtKeywords" title="Nhập từ khóa cần tìm" type="text" placeholder="Nhập từ khóa" />
+                                </td>
+                                <td>
+                                    @Html.DropDownList("CategoriesSearch", new SelectList(ViewBag.SelectCategories, "Value", "Text"), new { @class = "form-control" })
+                                </td>
+                                <td>
+                                    <input id="txtTacGia" name="txtTacGia" title="Nhập tên tác giả cần tìm" type="text" placeholder="Nhập tác giả" />
+                                </td>
+                                <td>
+                                    <input id="txtToChuc" name="txtToChuc" title="Nhập tên tổ chức cần tìm" type="text" placeholder="Nhập tổ chức" />
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" title="Nhấn vào đây để tìm kiếm" class="btnsearch" onclick=" SearchAdvanced() ">Tìm</button>
+                                    @*<button type="button" class="btnsearch" onclick="Cancle()">Xóa</button>*@
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    @foreach (var item in Model)
+                    {
+                        <div class="item">
+                            <h3 class="title">
+                                <a href="/@item.Url" title="@item.Name">
+                                    @item.Name.ToUpper()
+                                </a>
+                            </h3>
+                            <div class="time-social">
+                                <span class="time">
+                                    @DateTime.Parse(item.ModifiedDate.ToString()).ToString("dd/MM/yyyy")
+                                </span>
+                                <span>
+                                    <div style="float: left"><div class="addthis_inline_share_toolbox"></div></div>
+                                    @*<a href="#" class="social-icon facebook">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                            <a href="#" class="social-icon twitter">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-icon google">
+                                <i class="fa fa-google-plus"></i>
+                            </a>
+                            <a href="#" class="social-icon linkedin">
+                                <i class="fa fa-linkedin"></i>
+                            </a>*@
+                                </span>
+                            </div>
+                            <div class="thumbnail">
+                                @if (!string.IsNullOrEmpty(item.Thumbnail))
+                                {
+                                    <a href="/@item.Url" title="@item.Name">
+                                        <img width="333" height="142" alt="@item.Name" src="@item.Thumbnail" />
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="/@item.Url" title="@item.Name">
+                                        <img alt="@item.Name" src="~/Content/img333v142.jpg" />
+                                    </a>
+                                }
+                            </div>
+                            <div class="description">
+                                @item.Note
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <a href="/@item.Url" title="@item.Name">
+                                Đọc thêm
+                            </a>
+                        </div>
+                    }
+                    <div class="paging">
+                        @Html.PagedListPager(Model, page => Url.Content("/" + ViewBag.stUrl + "?keyword=" + ViewBag.Keyword + "&&year=" + ViewBag.Year + "&&page=" + page))
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="box-right">
+                        <div class="header">
+                            @ViewBag.CategoriesName
+                        </div>
+                        <div class="box-body">
+                            @if (ViewBag.BoxCategories == "LEFTMENU_2")
+                            {
+                                @Html.Action("GetBoxCategories_LEFTMENU_1", new { Id = ViewBag.CategoriesId })
+                            }
+                            else
+                            {
+                                @*@Html.Action("GetBoxCategories_LEFTMENU_1", new { Id = ViewBag.CategoriesId })*@
+                                @Html.Action("getBoxCategories", new { Id = ViewBag.CategoriesId })
+                            }
+                        </div>
+                    </div>
+                    <div class="box-right">
+                        <div class="header">
+                            Tin mới ra
+                        </div>
+                        <div class="box-body">
+                            @Html.Action("getLatestNews")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

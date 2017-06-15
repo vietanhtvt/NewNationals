@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ClassLibrary.Models.Menu>
+@using ClassLibrary.Services;
+<ul class="nav navbar-nav">
+    @foreach (var item in Model)
+    {
+        <li>
+            <a href="/@item.TargetUrl">
+                @item.Name
+            </a>
+            @{
+                MenuService menuservice = new MenuService();
+                var listchild = menuservice.GetMenuTopChild(int.Parse(item.Id.ToString()));
+            }
+            @if (listchild.Count() > 0)
+            {
+                <i class="fa fa-sort-down"></i>
+                <ul>
+                    @foreach (var itemchild in listchild)
+                    {
+                        <li>
+                            <a href="/@itemchild.TargetUrl">
+                                @itemchild.Name
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+        </li>
+      }
+</ul>

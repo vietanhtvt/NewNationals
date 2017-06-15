@@ -1,0 +1,97 @@
+﻿@model NewNationals.Areas.AdminControlPanel.Models.ModelSystems
+@using System.Web.UI.WebControls
+@using ClassLibrary.Services
+@using ClassLibrary.Commons
+@{
+    ViewBag.Title = "Quản lý cài đặt";
+    Layout = "~/Areas/AdminControlPanel/Views/Shared/_LayoutAdminCp.cshtml";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        CÀI ĐẶT HỆ THỐNG
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Cài đặt</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- Main row -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">
+                      
+                    </h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.FooterInfo1)</label>
+                                    @Html.TextAreaFor(model => model.FooterInfo1, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập nội dung Footer 1"}})
+                                    @Html.ValidationMessageFor(model => model.FooterInfo1, "", new {@class = "text-danger"})
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.FooterInfo2)</label>
+                                    @Html.TextAreaFor(model => model.FooterInfo2, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập nội dung Footer 2"}})
+                                    @Html.ValidationMessageFor(model => model.FooterInfo2, "", new {@class = "text-danger"})
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.FooterInfo3)</label>
+                                    @Html.TextAreaFor(model => model.FooterInfo3, new {htmlAttributes = new {@class = "form-control", @placeholder = "Nhập nội dung Footer 3"}})
+                                    @Html.ValidationMessageFor(model => model.FooterInfo3, "", new {@class = "text-danger"})
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.THONGTIN)</label>
+                                    @Html.TextAreaFor(model => model.THONGTIN, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập nội dung thông tin" } })
+                                    @Html.ValidationMessageFor(model => model.THONGTIN, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.RIENGTU)</label>
+                                    @Html.TextAreaFor(model => model.RIENGTU, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập nội dung riêng tư" } })
+                                    @Html.ValidationMessageFor(model => model.RIENGTU, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label>@Html.LabelFor(model => model.DIEUKHOAN)</label>
+                                    @Html.TextAreaFor(model => model.DIEUKHOAN, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập nội dung điều khoản" } })
+                                    @Html.ValidationMessageFor(model => model.DIEUKHOAN, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn bg-maroon">Lưu Thông Tin</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <!-- /.row (main row) -->
+</section>
+<script src="~/Areas/AdminControlPanel/Content/ckeditor/ckeditor.js"></script>
+<script src="~/Areas/AdminControlPanel/Content/ckeditor/styles.js"></script>
+<script src="~/Areas/AdminControlPanel/Content/ckfinder/ckfinder.js"></script>
+<script>
+    $(function () {
+        CKEDITOR.replace('FooterInfo1');
+        CKEDITOR.replace('FooterInfo2');
+        CKEDITOR.replace('FooterInfo3');
+        CKEDITOR.replace('THONGTIN');
+        CKEDITOR.replace('RIENGTU');
+        CKEDITOR.replace('DIEUKHOAN');
+    });
+</script>
+
+

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ClassLibrary.Models.Page>
+@using ClassLibrary.Commons
+@foreach (var item in Model)
+{
+    <div class="box-item">
+        <h3 class="title"><a href="@item.Url">@CommonsHelper.RutGon(item.Name.ToUpper(),38)</a></h3>
+        <div class="time-social">
+            <span class="time">
+                @DateTime.Parse(item.ModifiedDate.ToString()).ToString("dd/MM/yyyy")
+            </span>
+            <span>
+                <div style="float: left"><div class="addthis_inline_share_toolbox"></div></div>
+                @*<a href="#" class="social-icon facebook">
+                    <i class="fa fa-facebook"></i>
+                </a>
+                <a href="#" class="social-icon twitter">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a href="#" class="social-icon google">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+                <a href="#" class="social-icon linkedin">
+                    <i class="fa fa-linkedin"></i>
+                </a>*@
+            </span>
+        </div>
+        @if (!string.IsNullOrEmpty(item.Thumbnail))
+        {
+            <div class="thumbnail">
+                <a href="@item.Url">
+                    <img src="@item.Thumbnail" />
+                </a>
+            </div>
+        }
+        <div class="text-note">
+            @item.Note
+        </div>
+    </div>
+    <div class="box-footer">
+        <a href="@item.Url">Đọc thêm</a>
+    </div>
+}

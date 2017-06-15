@@ -1,0 +1,22 @@
+﻿@model IEnumerable<ClassLibrary.Models.Page>
+@using ClassLibrary.Commons;
+@foreach (var item in Model)
+{
+    <div class="item">
+        <div class="event-text">
+            <div class="event-time">
+               @Html.Raw(CommonsHelper.formatDate(DateTime.Parse(item.ModifiedDate.ToString())))
+            </div>
+            <div class="event-body">
+                <div class="event-title">
+                    <a href="/@item.Url">
+                        @item.Name
+                    </a>
+                </div>
+                <div class="event-description">
+                    @CommonsHelper.RutGon(item.Note, 120)
+                </div>
+            </div>
+        </div>
+    </div>
+}

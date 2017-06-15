@@ -1,0 +1,56 @@
+﻿@model ClassLibrary.Models.Page
+@using ClassLibrary.Commons
+@using ClassLibrary.Services
+@{
+    if (Model != null)
+    {
+        <div class="box-item">
+            <h3 class="title"><a href="/@Model.Url">@Model.Name.ToUpper()</a></h3>
+            <div class="time-social">
+                <span class="time">
+                    @DateTime.Parse(Model.ModifiedDate.ToString()).ToString("dd/MM/yyyy")
+                </span>
+                <span>
+                    <div style="float: left"><div class="addthis_inline_share_toolbox"></div></div>
+                    
+                    @*<a href="#" class="social-icon facebook">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="#" class="social-icon twitter">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon google">
+                        <i class="fa fa-google-plus"></i>
+                    </a>
+                    <a href="#" class="social-icon linkedin">
+                        <i class="fa fa-linkedin"></i>
+                    </a>*@
+                </span>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.Thumbnail))
+            {
+                <div class="thumbnail">
+                    <a href="/@Model.Url">
+                        <img src="@Model.Thumbnail" />
+                    </a>
+                </div>
+            }
+            <div class="text-note">
+                @CommonsHelper.RutGon(Model.Note, 220)
+            </div>
+            <div class="in-category">
+                <b>Mục tin: </b> <a href="/@ViewBag.Url">@CommonsHelper.RutGon(ViewBag.Name, 42)</a>
+            </div>
+        </div>
+        <div class="box-footer">
+            <a href="/@Model.Url">Đọc thêm</a>
+        </div>
+
+    }
+    else
+    {
+        <div>
+            Không có dữ liệu
+        </div>
+    }
+}

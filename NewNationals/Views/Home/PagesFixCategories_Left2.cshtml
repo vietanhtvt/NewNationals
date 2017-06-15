@@ -1,0 +1,132 @@
+﻿@using ClassLibrary.Commons
+@model ClassLibrary.Models.Page
+<div class="main-page">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+                <img src="~/Content/logo.png" />
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            @Html.Action("MenuTop")
+            <div class="form-search">
+                <div class="search-body">
+                    <input type="text" id="txtSearch" placeholder="Tìm kiêm" class="text" />
+                    <button class="btn-search" onclick=" Timkiem() " type="button"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="container body-content">
+        <div class="row">
+            <div class="breadcrumb-trail breadcrumb">
+                @Html.Raw(ViewBag.Breadcrumb)
+            </div>
+            <div class="col-lg-12">
+                <div class="page-body" id="div_print">
+                    <h1 class="page-title">@CommonsHelper.VietHoaKyTuDauTien(Model.Name)</h1>
+                    <div class="col-lg-8" style="padding-left: 0px">
+                        <div class="time-social">
+                            <span class="time">
+                                @DateTime.Parse(Model.ModifiedDate.ToString()).ToString("dd/MM/yyyy")
+                            </span>
+                            <span>
+                                <div style="float: left"><div class="addthis_inline_share_toolbox"></div></div>
+                                <div style="float: right"><span style="cursor: pointer"><img onclick=" Print('div_print'); " src="~/Content/print.png" /></span>&nbsp;&nbsp;<span style="cursor: pointer"><img onclick="SendEmail('@ViewBag.Urls') " src="~/Content/email.png" /></span></div>
+                                @*<a href="#" class="social-icon facebook">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="#" class="social-icon twitter">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon google">
+                        <i class="fa fa-google-plus"></i>
+                    </a>
+                    <a href="#" class="social-icon linkedin">
+                        <i class="fa fa-linkedin"></i>
+                    </a>*@
+                            </span>
+                        </div>
+                        <div class="page-content">
+                            @Html.Raw(Model.Content)
+                            <input type="hidden" id="CateUrl" value="@ViewBag.CateUrl" />
+                        </div>
+                        @Html.Raw(ViewBag.ListFile)
+                        @Html.Raw(ViewBag.ListLienKet)
+                        <div class="muc-tin">
+                            @Html.Raw(ViewBag.Muctin)
+                        </div>
+                        <div class="namviet">
+                            @ViewBag.Year
+                        </div>
+                        <div class="tacgia">
+                            @ViewBag.TacGia
+                        </div>
+                        <div class="tochuc">
+                            @ViewBag.ToChuc
+                        </div>
+                        <div class="pagetag">
+                            @Html.Action("Tags", new { PageId = Model.Id })
+                        </div>
+                        <div class="comment">
+                            <div class="comment-item">
+                                @Html.Raw(ViewBag.ListComment)
+                            </div>
+                            <hr />
+                            <div class="form-comment">
+                                @Html.Action("Comment", new { PageId = Model.Id })
+                            </div>
+                        </div>
+                        @Html.Action("NewRelated", new { Id = Model.Id, CateId = Model.CategoriesId, Taxanomy = Model.Taxanomy })
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="box-right">
+                            <div class="header">
+                                @ViewBag.CategoriesName
+                            </div>
+                            <div class="box-body">
+                                @*@if (ViewBag.BoxCategories == "LEFTMENU_2")
+                                {
+                                    @Html.Action("GetBoxCategories_LEFTMENU_2", new { Id = ViewBag.CategoriesId })
+                                }
+                                @if (ViewBag.BoxCategories == "LEFTMENU_1")
+                                {
+                                    @Html.Action("GetBoxCategories_LEFTMENU_1", new { Id = ViewBag.CategoriesId })
+                                }*@
+                                @Html.Action("getBoxCategories", new { Id = ViewBag.CategoriesId })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+            
+        </div>
+    </div>
+</div>
+<script>
+
+    function Print(printpage) {
+        var headstr = "<html><head><title></title></head><body>";
+        var footstr = "</body>";
+        var newstr = document.all.item(printpage).innerHTML;
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr + newstr + footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        return false;
+    }
+    function SendEmail(Url) {
+        var url = "/SendMail?page=" + Url;
+        window.location = url;
+    }
+
+</script>

@@ -1,0 +1,35 @@
+﻿@model NewNationals.Models.ModelUrls
+@{
+    ViewBag.Title = Model.Title;
+    string stCase = Model.ActionLink;
+    switch (stCase)
+    {
+        case "Category":
+            @Html.Action("CategoriesPageNew")
+            break;
+        case "CategoriesPage2":
+            @Html.Action("CategoriesPageNew")
+            break;
+        case "Content":
+            @Html.Action("Pages")
+            break;
+        case "BaiViet_TNGT":
+            @Html.Action("PagesFixCategories_Left2") // sử dụng cho các bài viết trong dạng tai nạn giao thông
+            break;
+        case "BaiViet_KHAC":
+            @Html.Action("PagesFixCategories_Left1") // các dạng còn lại
+            break;
+        case "Page":
+            @Html.Action("DetailPage")
+            break;
+        case "404":
+            @Html.Action("PageError")
+            break;
+        case "":
+            @Html.Action("Index")
+            break;
+        default:
+            @Html.Action("Index")
+            break;
+    }
+}

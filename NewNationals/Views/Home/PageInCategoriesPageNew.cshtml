@@ -1,0 +1,61 @@
+﻿
+@model ClassLibrary.Models.Page
+@using ClassLibrary.Commons
+@using ClassLibrary.Services
+@{
+    if (Model != null)
+    {
+        @*<h3 class="title">
+                <a href="/@Model.Url" title="@Model.Name.ToUpper()">@CommonsHelper.RutGon(Model.Name.ToUpper(), 50)
+                </a>
+            </h3>*@
+        @*<div class="time-social">
+                <span class="time">
+                    @DateTime.Parse(Model.ModifiedDate.ToString()).ToString("dd/MM/yyyy")
+                </span>
+                <span>
+                    <div style="float: left"><div class="addthis_inline_share_toolbox"></div></div>
+                </span>
+            </div>*@
+        <div style="float: left">
+            @if (!string.IsNullOrEmpty(Model.Thumbnail))
+            {
+            <div class="thumbnail2" >
+                <a href="/@Model.Url">
+                    <img  src="@Model.Thumbnail" />
+                </a>
+            </div>
+            }
+            else
+            {
+                <div class="thumbnail2">
+                    <a href="/@Model.Url">
+                        <img  src="~/Content/ImgHomeDefault.jpg"/>
+                    </a>
+                </div>
+            }
+        </div>
+        <div style="padding-left: 15px">
+            <div class="time-socialpage2" style="width:69%">
+                <span class="time">
+                    @DateTime.Parse(Model.ModifiedDate.ToString()).ToString("dd/MM/yyyy")
+                </span>
+                <span>
+                    <div style="float: left"><div class="addthis_inline_share_toolbox"></div></div>
+                </span>
+            </div>
+            <div class="text-note">
+                @CommonsHelper.RutGon(Model.Note, 220)
+            </div>
+            <div class="in-category">
+                <b>Mục tin: </b> <a href="/@ViewBag.Url">@CommonsHelper.RutGon(ViewBag.Name, 42)</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div>
+            Không có dữ liệu
+        </div>
+    }
+}
